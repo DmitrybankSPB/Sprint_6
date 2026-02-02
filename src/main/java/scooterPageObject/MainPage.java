@@ -25,7 +25,7 @@ public class MainPage {
     //Кнопка "Заказать" вверху страницы
     private final String UP_ORDER_BUTTON = "//button[@class='Button_Button__ra12g']";
     //Кнопка "Заказать" в середине страницы
-    private final String DOWN_ORDER_BUTTON = "//button[contains(@class, 'Button_Middle__1CSJM')]";
+    private final String DOWN_ORDER_BUTTON = "//div[@class='Home_FinishButton__1_cWm']//button[contains(@class, 'Button_Middle__1CSJM')]";
 
     private WebDriver driver;
 
