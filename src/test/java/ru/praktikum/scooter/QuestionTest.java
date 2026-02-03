@@ -1,6 +1,7 @@
 package ru.praktikum.scooter;
 
 import Utils.Answers;
+import Utils.WebDriverFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,11 +17,14 @@ public class QuestionTest {
 
     private WebDriver driver;
 
+    @BeforeEach
+    void setUp() {
+        driver = WebDriverFactory.createDriver();
+    }
 
     @ParameterizedTest
     @EnumSource(Answers.class)
     void CheckAnswersTextForEachQuestions (Answers answer) {
-        driver = new ChromeDriver();
 
         MainPage mainpage = new MainPage(driver);
         mainpage.openMainPage();
