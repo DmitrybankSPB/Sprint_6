@@ -1,7 +1,15 @@
 package scooterPageObject;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+
+import java.time.Duration;
 
 public class MainPage {
     //URL страницы
@@ -22,6 +30,10 @@ public class MainPage {
     private final String CANCEL_QUEST = "//div[@id='accordion__heading-6']";
     //Кнопка с вопросом "Я жизу за МКАДом, привезёте?"
     private final String MKAD_QUEST = "//div[@id='accordion__heading-7']";
+    //Общая часть xpath для вопросов
+    private final String QUEST = "//div[@id='accordion__heading-";
+    //Общая часть xpath для ответов
+    private final String ANSWERS = "//div[@id='accordion__panel-";
     //Кнопка "Заказать" вверху страницы
     private final String UP_ORDER_BUTTON = "//button[@class='Button_Button__ra12g']";
     //Кнопка "Заказать" в середине страницы
@@ -35,6 +47,41 @@ public class MainPage {
 
     public void openMainPage() {
         driver.get(MAIN_URL);
+    }
+
+    //Вопрос по индексу
+    private By questionByIndex(int index) {
+        return By.xpath(QUEST+index+"']");
+    }
+
+    //Ответ по индексу
+    private By answerByIndex(int index) {
+        return By.xpath(ANSWERS+index+"']");
+    }
+
+    private void waitForElement (By locator) {
+        new WebDriverWait(driver, Duration.ofSeconds(3)).
+                until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    private void scrollToElement (By locator) {
+        WebElement element = driver.findElement(locator);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+    }
+
+    public void clickQuestionByIndex(int index) {
+        By question = questionByIndex(index);
+
+        waitForElement(question);
+        scrollToElement(question);
+        driver.findElement(question).click();
+    }
+
+    public String getAnswerByIndex(int index, String expectedText) {
+        By answer = answerByIndex(index);
+
+        new WebDriverWait(driver,Duration.ofSeconds(3)).until(ExpectedConditions.textToBePresentInElementLocated(answer, expectedText));
+        return driver.findElement(answer).getText();
     }
 
     public void clickCostQuest() {
