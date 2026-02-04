@@ -1,7 +1,5 @@
 package Utils;
 
-import javax.swing.*;
-
 public enum Answers {
     COST_QUEST(0,
             "Сутки — 400 рублей. Оплата курьеру — наличными или картой."),
