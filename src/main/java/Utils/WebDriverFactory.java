@@ -1,5 +1,6 @@
 package Utils;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,14 +16,16 @@ public class WebDriverFactory {
 
             case "firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.addArguments("--width=1920", "--height=1080");
-                return new FirefoxDriver(firefoxOptions);
+                WebDriver firefoxDriver = new FirefoxDriver(firefoxOptions);
+                firefoxDriver.manage().window().setSize(new Dimension(1920, 1080));
+                return firefoxDriver;
 
             case "chrome":
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--width=1920", "--height=1080");
-                return new ChromeDriver(chromeOptions);
+                WebDriver chromeDriver = new ChromeDriver(chromeOptions);
+                chromeDriver.manage().window().setSize(new Dimension(1920, 1080));
+                return chromeDriver;
         }
     }
 }

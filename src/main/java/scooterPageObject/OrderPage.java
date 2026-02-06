@@ -1,7 +1,6 @@
 package scooterPageObject;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -17,7 +16,7 @@ public class OrderPage {
     //Поле "Станция метро
     private final String SUBWAY = "//div[@class='select-search__value']//input[contains(@placeholder, '* Станция метро')]";
     //Поле выбора станции метро
-    private final String SUBWAY_CHOISE = "//div[@class='Order_Filled__3GNlS']//div[@class='select_search__select']";
+    private final String SUBWAY_CHOISE = "//div[contains(@class, 'select-search')]//div[text()='%s']";
     //Поле "Телефон: на него позвонит курьер
     private final String PHONE = "//div[@class='Input_InputContainer__3NykH']//input[contains(@placeholder, '* Телефон')]";
     //Кнопка "Далее"
@@ -27,7 +26,7 @@ public class OrderPage {
     //Поле "Срок аренды"
     private final String RENT_PERIOD = "//div[@class='Dropdown-control']//div[@class='Dropdown-placeholder']";
     //Выбор срока аренды
-    private final String RENT_OPTION = "//div[text()='%s']";
+    private final String RENT_OPTION = "//div[contains(@class, 'Dropdown-menu')]//div[text()='%s']";
     //Поле "Цвет самоката" - Черный жемчуг
     private final String BLACK_COLOUR = "//input[@id='black']";
     //Поле "Цвет самоката" - серая безысходность
@@ -76,11 +75,18 @@ public class OrderPage {
     }
 
     public void clickNext(){
-        driver.findElement(By.xpath(NEXT)).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NEXT)));
+        scrollToElement(By.xpath(NEXT));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(NEXT)));
+
+        WebElement button = driver.findElement(By.xpath(NEXT));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].click();", button);
     }
 
     public void fillWhen(String date){
         driver.findElement(By.xpath(WHEN)).sendKeys(date);
+        driver.findElement(By.xpath(WHEN)).sendKeys(Keys.ENTER);
     }
 
     public void fillRentPeriod(String period){
@@ -101,15 +107,27 @@ public class OrderPage {
     }
 
     public void fillComment(String  comment){
+        scrollToElement(By.xpath(COMMENT));
         driver.findElement(By.xpath(COMMENT)).sendKeys(comment);
     }
 
     public void submitOrder(){
-        driver.findElement(By.xpath(DOWN_ORDER_BUTTON)).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(DOWN_ORDER_BUTTON)));
+        scrollToElement(By.xpath(DOWN_ORDER_BUTTON));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(DOWN_ORDER_BUTTON)));
+
+        WebElement button = driver.findElement(By.xpath(DOWN_ORDER_BUTTON));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].click();", button);
         driver.findElement(By.xpath(YES_BUTTON)).click();
     }
 
     public boolean isOrderSuccessDisplay(){
-        return new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(CONFIRM))).isDisplayed();
+        return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(CONFIRM))).isDisplayed();
+    }
+
+    private void scrollToElement (By locator) {
+        WebElement element = driver.findElement(locator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
     }
 }

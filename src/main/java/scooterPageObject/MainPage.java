@@ -1,9 +1,6 @@
 package scooterPageObject;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
@@ -19,7 +16,9 @@ public class MainPage {
     //Кнопка "Заказать" вверху страницы
     private final String UP_ORDER_BUTTON = "//button[@class='Button_Button__ra12g']";
     //Кнопка "Заказать" в середине страницы
-    private final String DOWN_ORDER_BUTTON = "//div[@class='Home_FinishButton__1_cWm']//button[contains(@class, 'Button_Middle__1CSJM')]";
+    private final String DOWN_ORDER_BUTTON = "//div[@class='Home_FinishButton__1_cWm']//button[contains(text(), 'Заказать')]";
+    //Кнопка принятия cookies
+    private final String COOKIE_BUTTON = "//button[@id='rcc-confirm-button']";
 
     private WebDriver driver;
 
@@ -42,8 +41,8 @@ public class MainPage {
     }
 
     private void waitForElement (By locator) {
-        new WebDriverWait(driver, Duration.ofSeconds(3)).
-                until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).
+                until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     private void scrollToElement (By locator) {
@@ -54,9 +53,18 @@ public class MainPage {
     public void clickQuestionByIndex(int index) {
         By question = questionByIndex(index);
 
-        waitForElement(question);
-        scrollToElement(question);
-        driver.findElement(question).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(question));
+
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            ((JavascriptExecutor) driver)
+                    .executeScript("arguments[0].click();", element);
+        }
     }
 
     public String getAnswerByIndex(int index, String expectedText) {
@@ -66,4 +74,30 @@ public class MainPage {
         return driver.findElement(answer).getText();
     }
 
+    public void clickUpOrderButton(){
+        driver.findElement(By.xpath(UP_ORDER_BUTTON)).click();
+    }
+
+    public void clickDownOrderButton(){
+        WebElement downOrderButton = driver.findElement(By.xpath(DOWN_ORDER_BUTTON));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", downOrderButton);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(DOWN_ORDER_BUTTON)));
+
+        try{
+            element.click();
+        } catch (ElementClickInterceptedException e){
+            ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
+        }
+    }
+
+    public void acceptCookiesIfPresent(){
+        try{
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebElement cookie = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(COOKIE_BUTTON)));
+            cookie.click();
+        }
+        catch (TimeoutException ignored){
+        }
+    }
 }
