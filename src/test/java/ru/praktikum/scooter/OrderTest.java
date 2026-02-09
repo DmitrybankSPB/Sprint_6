@@ -1,6 +1,7 @@
 package ru.praktikum.scooter;
 
 import Utils.WebDriverFactory;
+import base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,14 +11,7 @@ import scooterPageObject.OrderPage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class OrderTest {
-
-    private WebDriver driver;
-
-    @BeforeEach
-    void SetUp(){
-        driver = WebDriverFactory.createDriver();
-    }
+public class OrderTest extends BaseTest {
 
     @Test
     void UpOrderButtonFlow(){
@@ -65,8 +59,4 @@ public class OrderTest {
         assertTrue(objOrderPage.isOrderSuccessDisplay(), "Экран подтверждения заказа не появился...");
     }
 
-    @AfterEach
-    void tearDown(){
-        driver.quit();
-    }
 }

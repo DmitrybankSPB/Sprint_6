@@ -1,25 +1,15 @@
 package ru.praktikum.scooter;
 
 import Utils.Answers;
-import Utils.WebDriverFactory;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import base.BaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.openqa.selenium.WebDriver;
 import scooterPageObject.MainPage;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class QuestionTest {
-
-    private WebDriver driver;
-
-    @BeforeEach
-    void setUp() {
-        driver = WebDriverFactory.createDriver();
-    }
+public class QuestionTest extends BaseTest {
 
     @ParameterizedTest
     @EnumSource(Answers.class)
@@ -35,8 +25,4 @@ public class QuestionTest {
         assertEquals(answer.getAnswerText(), actualText);
     }
 
-    @AfterEach
-    void tearDown(){
-        driver.quit();
-    }
 }
