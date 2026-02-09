@@ -1,13 +1,9 @@
 package ru.praktikum.scooter;
 
-import Utils.WebDriverFactory;
 import base.BaseTest;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
-import scooterPageObject.MainPage;
-import scooterPageObject.OrderPage;
+import scooterpagebject.MainPage;
+import scooterpagebject.OrderPage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

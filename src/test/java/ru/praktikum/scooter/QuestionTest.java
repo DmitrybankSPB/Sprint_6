@@ -1,10 +1,10 @@
 package ru.praktikum.scooter;
 
-import Utils.Answers;
+import utils.Answers;
 import base.BaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import scooterPageObject.MainPage;
+import scooterpagebject.MainPage;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

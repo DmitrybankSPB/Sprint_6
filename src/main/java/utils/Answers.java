@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 public enum Answers {
     COST_QUEST("Сколько это стоит? И как оплатить?",

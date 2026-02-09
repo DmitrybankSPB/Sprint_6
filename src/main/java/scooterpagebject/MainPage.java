@@ -1,4 +1,4 @@
-package scooterPageObject;
+package scooterpagebject;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,50 +29,6 @@ public class MainPage {
     public void openMainPage() {
         driver.get(MAIN_URL);
     }
-
-    //Вопрос по индексу
-   /* private By questionByIndex(int index) {
-        return By.xpath(QUEST+index+"']");
-    }
-
-    //Ответ по индексу
-    private By answerByIndex(int index) {
-        return By.xpath(ANSWERS+index+"']");
-    }
-
-    private void waitForElement (By locator) {
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    private void scrollToElement (By locator) {
-        WebElement element = driver.findElement(locator);
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
-    }
-
-    public void clickQuestionByIndex(int index) {
-        By question = questionByIndex(index);
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(question));
-
-        ((JavascriptExecutor) driver)
-                .executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
-
-        try {
-            element.click();
-        } catch (ElementClickInterceptedException e) {
-            ((JavascriptExecutor) driver)
-                    .executeScript("arguments[0].click();", element);
-        }
-    }
-
-    public String getAnswerByIndex(int index, String expectedText) {
-        By answer = answerByIndex(index);
-
-        new WebDriverWait(driver,Duration.ofSeconds(3)).until(ExpectedConditions.textToBePresentInElementLocated(answer, expectedText));
-        return driver.findElement(answer).getText();
-    }*/
 
     public void clickQuestionByText (String questionText) {
         By locator = By.xpath(String.format(QUEST, questionText));

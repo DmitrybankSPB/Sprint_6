@@ -1,4 +1,4 @@
-package scooterPageObject;
+package scooterpagebject;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
