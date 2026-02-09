@@ -10,9 +10,9 @@ public class MainPage {
     //URL страницы
     private final String MAIN_URL = "https://qa-scooter.praktikum-services.ru/";
     //Общая часть xpath для вопросов
-    private final String QUEST = "//div[@id='accordion__heading-";
+    private final String QUEST = "//div[contains(@class,'accordion__button') and text() = '%s']";
     //Общая часть xpath для ответов
-    private final String ANSWERS = "//div[@id='accordion__panel-";
+    private final String ANSWERS = "//div[contains(@class, 'accordion__button') and text() = '%s']/ancestor::div[@data-accordion-component='AccordionItem']//div[@data-accordion-component='AccordionItemPanel']";
     //Кнопка "Заказать" вверху страницы
     private final String UP_ORDER_BUTTON = "//button[@class='Button_Button__ra12g']";
     //Кнопка "Заказать" в середине страницы
@@ -31,7 +31,7 @@ public class MainPage {
     }
 
     //Вопрос по индексу
-    private By questionByIndex(int index) {
+   /* private By questionByIndex(int index) {
         return By.xpath(QUEST+index+"']");
     }
 
@@ -72,6 +72,29 @@ public class MainPage {
 
         new WebDriverWait(driver,Duration.ofSeconds(3)).until(ExpectedConditions.textToBePresentInElementLocated(answer, expectedText));
         return driver.findElement(answer).getText();
+    }*/
+
+    public void clickQuestionByText (String questionText) {
+        By locator = By.xpath(String.format(QUEST, questionText));
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        WebElement question = wait.until(ExpectedConditions.elementToBeClickable(locator));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", question);
+
+        try {
+            question.click();
+        } catch (ElementClickInterceptedException e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", question);
+        }
+    }
+
+    public String getAnswerByQuestionText(String questionText, String expectedText){
+        By locator = By.xpath(String.format(ANSWERS, questionText));
+
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.textToBePresentInElementLocated(locator, expectedText));
+
+        return driver.findElement(locator).getText();
     }
 
     public void clickUpOrderButton(){

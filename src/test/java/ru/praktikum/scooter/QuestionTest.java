@@ -18,9 +18,9 @@ public class QuestionTest extends BaseTest {
         MainPage mainpage = new MainPage(driver);
         mainpage.openMainPage();
 
-        mainpage.clickQuestionByIndex(answer.getIndex());
+        mainpage.clickQuestionByText(answer.getQuestionText());
 
-        String actualText = mainpage.getAnswerByIndex(answer.getIndex(), answer.getAnswerText());
+        String actualText = mainpage.getAnswerByQuestionText(answer.getQuestionText(), answer.getAnswerText());
 
         assertEquals(answer.getAnswerText(), actualText);
     }
